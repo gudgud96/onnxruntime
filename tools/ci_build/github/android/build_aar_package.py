@@ -98,6 +98,8 @@ def _build_aar(args):
     header_files_path = ""
 
     # Build binary for each ABI, one by one
+    # NOTE: this is a hack
+    build_settings["build_abis"] = ["arm64-v8a"]
     for abi in build_settings["build_abis"]:
         print(f">>>>>>>>>>>>>>>> Building for ABI {abi} <<<<<<<<<<<<<<<<<<")
         abi_build_dir = os.path.join(intermediates_dir, abi)
