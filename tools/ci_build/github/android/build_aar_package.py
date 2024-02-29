@@ -78,7 +78,7 @@ def _parse_build_settings(args):
 
 
 def _build_aar(args):
-    print(">>>>>> building aar...")
+    print(">>>>>>>>>>>>>>>> building aar <<<<<<<<<<<<<<<<<<")
     build_settings = _parse_build_settings(args)
     build_dir = os.path.abspath(args.build_dir)
     ops_config_path = os.path.abspath(args.include_ops_by_config) if args.include_ops_by_config else None
@@ -99,12 +99,14 @@ def _build_aar(args):
 
     # Build binary for each ABI, one by one
     for abi in build_settings["build_abis"]:
+        print(f">>>>>>>>>>>>>>>> Building for ABI {abi} <<<<<<<<<<<<<<<<<<")
         abi_build_dir = os.path.join(intermediates_dir, abi)
         abi_build_command = [*base_build_command, "--android_abi=" + abi, "--build_dir=" + abi_build_dir]
 
         if ops_config_path is not None:
             abi_build_command += ["--include_ops_by_config=" + ops_config_path]
 
+        print(f">>>>> Run command: {abi_build_command} <<<<<<")
         subprocess.run(abi_build_command, env=temp_env, shell=False, check=True, cwd=REPO_DIR)
 
         # create symbolic links for libonnxruntime.so and libonnxruntime4j_jni.so
@@ -130,6 +132,8 @@ def _build_aar(args):
         # we only need to define the header files path once
         if not header_files_path:
             header_files_path = os.path.join(abi_build_dir, build_config, "android", "headers")
+
+        print(f">>>>>>>>>>>>>>>> Finished for ABI {abi}. <<<<<<<<<<<<<<<<<<")
 
     # The directory to publish final AAR
     aar_publish_dir = os.path.join(build_dir, "aar_out", build_config)
