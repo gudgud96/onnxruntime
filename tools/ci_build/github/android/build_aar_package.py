@@ -78,6 +78,7 @@ def _parse_build_settings(args):
 
 
 def _build_aar(args):
+    print(">>>>>> building aar...")
     build_settings = _parse_build_settings(args)
     build_dir = os.path.abspath(args.build_dir)
     ops_config_path = os.path.abspath(args.include_ops_by_config) if args.include_ops_by_config else None
